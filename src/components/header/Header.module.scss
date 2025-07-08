@@ -1,0 +1,10 @@
+.header {
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 3rem 1rem 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+  width: calc(100vw - 2* 3rem);
+}
