@@ -1,34 +1,32 @@
 import { useState } from "react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import "./Login.css";
+import { useAuth } from "../../hooks/auth";
+import { useNavigate } from "react-router";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { login, isLoading, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
-    // Mock login delay
-    setTimeout(() => {
-      setLoading(false);
-      if (email === "demo@budgetr.com" && password === "password") {
-        // Success: In a real app, set auth state here
-        alert("Login successful! (Demo)");
-      } else {
-        setError("Invalid email or password.");
-      }
-    }, 1200);
+
+    await login(email, password);
+
+    if (isLoggedIn) {
+      navigate("/");
+    }
   };
 
   return (
     <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2 className="login-title">Sign in to Budgetr</h2>
+      <div className="login-form">
+        <h2 className="login-title">Sign in to BudgetR</h2>
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -37,7 +35,7 @@ export const Login = () => {
             autoComplete="username"
             placeholder="you@email.com"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -50,13 +48,13 @@ export const Login = () => {
               autoComplete="current-password"
               placeholder="Your password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button
               type="button"
               className="show-password-toggle"
-              onClick={() => setShowPassword(v => !v)}
+              onClick={() => setShowPassword((v) => !v)}
               tabIndex={-1}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
@@ -65,13 +63,21 @@ export const Login = () => {
           </div>
         </div>
         {error && <div className="login-error">{error}</div>}
-        <button className="login-submit" type="submit" disabled={loading}>
-          {loading ? "Signing in..." : <><LogIn size={18} /> Sign In</>}
+        <button
+          className="login-submit"
+          type="submit"
+          disabled={isLoading}
+          onClick={handleSubmit}
+        >
+          {isLoading ? (
+            "Signing in..."
+          ) : (
+            <>
+              <LogIn size={18} /> Sign In
+            </>
+          )}
         </button>
-        <div className="login-demo-info">
-          <span>Demo: demo@budgetr.com / password</span>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
