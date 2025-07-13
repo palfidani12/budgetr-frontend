@@ -1,0 +1,19 @@
+.timeFrameSelectorAlignerDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 1rem;
+
+  .timeFrameDropdown {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: 6px;
+    font-size: 1rem;
+    background: var(--background, #f8fafc);
+    color: var(--text, #1e293b);
+    outline: none;
+    transition: border-color 0.2s;
+    min-width: 120px;
+    cursor: pointer;
+  }
+}

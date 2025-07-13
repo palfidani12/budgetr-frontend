@@ -1,0 +1,202 @@
+.pocketCard {
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  flex: 1 1 280px;
+  min-width: 280px;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-light);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+.pocketHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.pocketIcon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.defaultIcon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.iconImage {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.pocketInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.pocketName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pocketType {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--border);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.5rem;
+  font-weight: 300;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--danger);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+.pocketBalance {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.balanceLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.balanceAmount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .pocketCard {
+    min-width: 100%;
+    padding: 1.25rem;
+  }
+
+  .pocketHeader {
+    margin-bottom: 1.25rem;
+  }
+
+  .pocketIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .defaultIcon {
+    font-size: 20px;
+  }
+
+  .iconImage {
+    width: 28px;
+    height: 28px;
+  }
+
+  .pocketName {
+    font-size: 1rem;
+  }
+
+  .balanceAmount {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pocketCard {
+    padding: 1rem;
+  }
+
+  .pocketIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .defaultIcon {
+    font-size: 18px;
+  }
+
+  .iconImage {
+    width: 24px;
+    height: 24px;
+  }
+
+  .pocketName {
+    font-size: 0.95rem;
+  }
+
+  .balanceAmount {
+    font-size: 1.25rem;
+  }
+}
