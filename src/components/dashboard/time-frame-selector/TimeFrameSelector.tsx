@@ -12,7 +12,6 @@ export const TimeFrameSelector = ({
 
   return (
     <div className={classes.timeFrameSelectorAlignerDiv}>
-      <h2>{timeFrame.toUpperCase()}</h2>
       <select
         className={classes.timeFrameDropdown}
         value={timeFrame}
@@ -25,7 +24,7 @@ export const TimeFrameSelector = ({
         <option value="week">Week</option>
         <option value="month">Month</option>
         <option value="year">Year</option>
-        <option value="all">All</option>
+        <option value="all">All Time</option>
       </select>
     </div>
   );

@@ -1,3 +1,41 @@
 .dashboardContentContainer {
   margin: 2rem 2rem;
 }
+
+.summarySection {
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 1.2rem 1.2rem 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.summaryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.summaryTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.summaryTimeFrame {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timeFrameLabel {
+  font-size: 1rem;
+  color: var(--muted);
+  font-weight: 500;
+}

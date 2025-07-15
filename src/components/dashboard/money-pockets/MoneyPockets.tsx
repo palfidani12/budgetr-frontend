@@ -18,7 +18,11 @@ export const MoneyPockets = ({
 }: {
   moneyPockets: MoneyPocketType[];
 }) => {
-  const [visiblePocketNames, setVisiblePocketNames] = useState<string[]>([]);
+  const defaultShownPockets = moneyPockets
+    .slice(0, 2)
+    .map((pocket) => pocket.name); // This is temporary, the goal is to save this preference and then show later what was saved
+  const [visiblePocketNames, setVisiblePocketNames] =
+    useState<string[]>(defaultShownPockets);
   const visiblePockets = moneyPockets.filter((pocket) =>
     visiblePocketNames.includes(pocket.name)
   );
