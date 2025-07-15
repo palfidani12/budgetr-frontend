@@ -107,7 +107,7 @@ const importFromFile = (event: React.ChangeEvent<HTMLInputElement>) => {
 };
 
 export const Header = () => {
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showAddDropdown, setShowAddDropdown] = useState(false);
   let theme = "dark";
 
   return (
@@ -143,10 +143,23 @@ export const Header = () => {
               />
             </label>
           </div>
-          <button className="add-button" onClick={() => setShowAddModal(true)}>
-            <Plus size={20} />
-            Add Transaction (Future: 'Add +' dropdown)
-          </button>
+          <div
+            className={classes.addDropdownWrapper}
+            onMouseEnter={() => setShowAddDropdown(true)}
+            onMouseLeave={() => setShowAddDropdown(false)}
+          >
+            <button className={classes.addButton}>
+              <Plus size={20} /> Add
+            </button>
+            {showAddDropdown && (
+              <div className={classes.addDropdownMenu}>
+                <button className={classes.addDropdownItem}>Add Transaction</button>
+                <button className={classes.addDropdownItem}>Add Money Pocket</button>
+                <button className={classes.addDropdownItem}>Add Income</button>
+                <button className={classes.addDropdownItem}>Add Expense</button>
+              </div>
+            )}
+          </div>
           <ThemeToggleButton />
         </div>
       </div>
