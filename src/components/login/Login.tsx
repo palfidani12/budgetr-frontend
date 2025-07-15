@@ -9,17 +9,18 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const { login, isLoading, isLoggedIn } = useAuth();
+  const { login, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    await login(email, password);
-
-    if (isLoggedIn) {
+    try {
+      await login(email, password);
       navigate("/dashboard");
+    } catch {
+      setError("Invalid email or password");
     }
   };
 
