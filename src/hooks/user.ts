@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import type { User } from "../types/user-type";
-import { apiClient } from "../utils/api";
 import { useAuth } from "./auth";
+import { useApi } from "./api";
 
 export const useUser = () => {
+  const api = useApi();
   const { userId } = useAuth();
   const { data } = useQuery({
     queryKey: [`getUser-${userId}`],
     queryFn: async () => {
-      const response = await apiClient.get<User>(`/user/${userId}`);
+      const response = await api.userApi.getUser(userId!);
 
       if (!response.ok) {
         throw new Error("Fetching user failed");

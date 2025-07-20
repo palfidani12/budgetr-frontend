@@ -1,22 +1,21 @@
+import type { User } from "../types/user-type";
+
 const API_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
-interface ApiResponse<T = any> {
+interface ApiResponse<T> {
   data: T;
   status: number;
   ok: boolean;
 }
 
-class ApiClient {
-  private static instance: ApiClient;
+export class ApiClient {
   private refreshPromise: Promise<string | null> | null = null;
+  public userApi: UserApi;
+  public authApi: AuthApi;
 
-  private constructor() {}
-
-  static getInstance(): ApiClient {
-    if (!ApiClient.instance) {
-      ApiClient.instance = new ApiClient();
-    }
-    return ApiClient.instance;
+  constructor() {
+    this.userApi = new UserApi(this);
+    this.authApi = new AuthApi(this);
   }
 
   private async makeRequest<T>(
@@ -108,9 +107,9 @@ class ApiClient {
     return this.makeRequest<T>(url, { ...options, method: "GET" });
   }
 
-  async post<T>(
+  async post<S, T>(
     url: string,
-    data?: any,
+    data?: S,
     options?: RequestInit
   ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(url, {
@@ -120,9 +119,9 @@ class ApiClient {
     });
   }
 
-  async put<T>(
+  async put<S, T>(
     url: string,
-    data?: any,
+    data?: S,
     options?: RequestInit
   ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(url, {
@@ -136,9 +135,9 @@ class ApiClient {
     return this.makeRequest<T>(url, { ...options, method: "DELETE" });
   }
 
-  async patch<T>(
+  async patch<S, T>(
     url: string,
-    data?: any,
+    data?: S,
     options?: RequestInit
   ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(url, {
@@ -149,4 +148,52 @@ class ApiClient {
   }
 }
 
-export const apiClient = ApiClient.getInstance();
+class UserApi {
+  private apiClient: ApiClient;
+  constructor(apiClient: ApiClient) {
+    this.apiClient = apiClient;
+  }
+
+  async getUser(userId: string) {
+    const response = await this.apiClient.get<User>(`/user/${userId}`);
+    return response;
+  }
+}
+
+class AuthApi {
+  private apiClient: ApiClient;
+  constructor(apiClient: ApiClient) {
+    this.apiClient = apiClient;
+  }
+
+  async postLogin(email: string, password: string) {
+    const response = await this.apiClient.post<
+      { email: string; password: string },
+      {
+        accessToken: string;
+        userId: string;
+      }
+    >("/auth/login", {
+      email,
+      password,
+    });
+
+    return response;
+  }
+
+  async postLogout() {
+    const response = await this.apiClient.post("/auth/logout");
+    return response;
+  }
+
+  async postRefreshToken() {
+    const response = await this.apiClient.post<
+      undefined,
+      {
+        accessToken: string;
+        userId: string;
+      }
+    >("/auth/refresh");
+    return response;
+  }
+}

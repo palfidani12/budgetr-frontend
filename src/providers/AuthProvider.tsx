@@ -1,7 +1,7 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { AuthContext } from "../context/auth.context";
-import { apiClient } from "../utils/api";
 import { tokenUtils } from "../utils/tokenUtils";
+import { useApi } from "../hooks/api";
 
 type AuthStateType = {
   accessToken: string | null;
@@ -11,6 +11,7 @@ type AuthStateType = {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const apiClient = useApi();
   const [authState, setAuthState] = useState<AuthStateType>({
     userId: null,
     isLoggedIn: false,
@@ -20,23 +21,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     setAuthState((prev) => ({ ...prev, isLoading: true }));
-    
+
     try {
-      const response = await apiClient.post<{ accessToken: string; userId: string }>('/auth/login', {
-        email,
-        password,
-      });
+      const response = await apiClient.authApi.postLogin(email, password);
 
       if (!response.ok) {
         throw new Error("Login failed");
       }
 
       const { accessToken, userId } = response.data;
-      
+
       // Store token and user ID
       tokenUtils.setToken(accessToken);
       tokenUtils.setUserId(userId);
-      
+
       setAuthState({
         userId,
         accessToken,
@@ -51,19 +49,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     setAuthState((prev) => ({ ...prev, isLoading: true }));
-    
+
     try {
-      const response = await apiClient.post('/auth/logout');
-      
+      const response = await apiClient.authApi.postLogout();
+
       if (!response.ok) {
         throw new Error("Logout failed");
       }
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     } finally {
       // Clear stored tokens
       tokenUtils.clearAuthData();
-      
+
       setAuthState({
         userId: null,
         accessToken: null,
@@ -75,15 +73,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const refreshToken = async () => {
     try {
-      const response = await apiClient.post<{ accessToken: string; userId: string }>('/auth/refresh');
-      
+      const response = await apiClient.authApi.postRefreshToken();
+
       if (response.ok && response.data) {
         const { accessToken, userId } = response.data;
-        
+
         // Store new tokens
         tokenUtils.setToken(accessToken);
         tokenUtils.setUserId(userId);
-        
+
         setAuthState({
           userId,
           accessToken,
@@ -101,7 +99,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     } catch (error) {
-      console.error('Token refresh failed:', error);
+      console.error("Token refresh failed:", error);
       tokenUtils.clearAuthData();
       setAuthState({
         userId: null,
@@ -117,15 +115,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const initializeAuth = async () => {
       try {
         // Try to refresh token to check if user is still authenticated
-        const response = await apiClient.post<{ accessToken: string; userId: string }>('/auth/refresh');
-        
+        const response = await apiClient.post<
+          { accessToken: string; userId: string },
+          void
+        >("/auth/refresh");
+
         if (response.ok && response.data) {
           const { accessToken, userId } = response.data;
-          
+
           // Store tokens
           tokenUtils.setToken(accessToken);
           tokenUtils.setUserId(userId);
-          
+
           setAuthState({
             userId,
             accessToken,
@@ -143,7 +144,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           });
         }
       } catch (error) {
-        console.error('Auth initialization failed:', error);
+        console.error("Auth initialization failed:", error);
         tokenUtils.clearAuthData();
         setAuthState({
           userId: null,
