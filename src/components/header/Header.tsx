@@ -2,6 +2,7 @@ import { Download, Moon, Plus, Sun, Upload } from "lucide-react";
 import { useState } from "react";
 import classes from "./Header.module.scss";
 import { ThemeToggleButton } from "./theme-toggle-button/ThemeToggleButton";
+import { useModal } from "../../hooks/modal";
 
 interface Currency {
   code: string;
@@ -108,7 +109,7 @@ const importFromFile = (event: React.ChangeEvent<HTMLInputElement>) => {
 
 export const Header = () => {
   const [showAddDropdown, setShowAddDropdown] = useState(false);
-  let theme = "dark";
+  const { openModal } = useModal();
 
   return (
     <div className={classes.header}>
@@ -153,10 +154,18 @@ export const Header = () => {
             </button>
             {showAddDropdown && (
               <div className={classes.addDropdownMenu}>
-                <button className={classes.addDropdownItem}>Add Transaction</button>
-                <button className={classes.addDropdownItem}>Add Money Pocket</button>
-                <button className={classes.addDropdownItem}>Add Income</button>
-                <button className={classes.addDropdownItem}>Add Expense</button>
+                <button
+                  className={classes.addDropdownItem}
+                  onClick={() => openModal("addTransaction")}
+                >
+                  Add Transaction
+                </button>
+                <button
+                  className={classes.addDropdownItem}
+                  onClick={() => openModal("addPocket")}
+                >
+                  Add Money Pocket
+                </button>
               </div>
             )}
           </div>

@@ -1,4 +1,3 @@
-import { useAuth } from "../../hooks/auth";
 import { Header } from "../header/Header";
 import { Navigation } from "../navigation/Navigation";
 import { useUser } from "../../hooks/user";
@@ -9,8 +8,7 @@ import { Summary } from "./summary/Summary";
 import { Insights } from "./insights/Insights";
 
 export const Dashboard = () => {
-  const { userId } = useAuth();
-  const user = useUser(userId);
+  const user = useUser();
   // Example tip
   const tip = "Tip: Track your expenses daily to stay on top of your budget!";
 
@@ -21,7 +19,9 @@ export const Dashboard = () => {
       <div className={classes.dashboardContentContainer}>
         <div className={classes.topRow}>
           <div className={classes.welcomeCard}>
-            <div className={classes.welcomeMessage}>Welcome{user?.firstName ? `, ${user.firstName}` : ""}!</div>
+            <div className={classes.welcomeMessage}>
+              Welcome{user?.firstName ? `, ${user.firstName}` : ""}!
+            </div>
             <div className={classes.tipMessage}>{tip}</div>
           </div>
         </div>
