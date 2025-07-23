@@ -1,3 +1,4 @@
+import type { Transaction } from "../types/transaction-type";
 import type { User } from "../types/user-type";
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
@@ -158,6 +159,13 @@ class UserApi {
 
   async getUser(userId: string) {
     const response = await this.apiClient.get<User>(`/user/${userId}`);
+    return response;
+  }
+
+  async getUserTransactions() {
+    const response = await this.apiClient.get<Transaction[]>(
+      "/user/userTransactions"
+    );
     return response;
   }
 }

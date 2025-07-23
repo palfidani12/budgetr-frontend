@@ -1,0 +1,37 @@
+.transactionRow {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  background-color: var(--surface);
+  border: solid 1px var(--border);
+  border-radius: 12px;
+  padding: 8px 18px;
+  width: 50%;
+
+  .nameContainer {
+    p {
+      margin: 0;
+    }
+
+    .vendorName {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .transactionName {
+      font-size: 14px;
+      font-style: italic;
+    }
+  }
+
+  .amount {
+    font-weight: bold;
+
+    &.income {
+      color: #22c55e;
+    }
+    &.expense {
+      color: #ef4444;
+    }
+  }
+}

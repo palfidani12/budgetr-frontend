@@ -5,4 +5,6 @@ export type Transaction = {
   name: string;
   vendorName: string;
   transactionTime: string;
+  createdAt?: string;
+  moneyPocketName?: string;
 };

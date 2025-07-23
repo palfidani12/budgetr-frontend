@@ -6,6 +6,7 @@ import { MoneyPockets } from "./money-pockets/MoneyPockets";
 import classes from "./Dashboard.module.scss";
 import { Summary } from "./summary/Summary";
 import { Insights } from "./insights/Insights";
+import { Transactions } from "./transactions/Transactions";
 
 export const Dashboard = () => {
   const user = useUser();
@@ -45,6 +46,8 @@ export const Dashboard = () => {
           <MoneyPockets moneyPockets={user?.moneyPockets} />
         )}
       </div>
+      <h2>Transactions</h2>
+      <Transactions />
     </div>
   );
 };
