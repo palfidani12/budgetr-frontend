@@ -12,10 +12,12 @@ export class ApiClient {
   private refreshPromise: Promise<string | null> | null = null;
   public userApi: UserApi;
   public authApi: AuthApi;
+  public transactionApi: TransactionApi;
 
   constructor() {
     this.userApi = new UserApi(this);
     this.authApi = new AuthApi(this);
+    this.transactionApi = new TransactionApi(this);
   }
 
   private async makeRequest<T>(
@@ -194,6 +196,29 @@ class AuthApi {
         userId: string;
       }
     >("/auth/refresh");
+    return response;
+  }
+}
+
+type CreateTransactionProps = {
+  transactionName: string;
+  vendorName: string;
+  amount: number;
+  transactionTime: string;
+  moneyPocketId: string;
+};
+
+class TransactionApi {
+  private apiClient: ApiClient;
+  constructor(apiClient: ApiClient) {
+    this.apiClient = apiClient;
+  }
+
+  async createTransaction(props: CreateTransactionProps) {
+    const response = await this.apiClient.post<CreateTransactionProps, void>(
+      "/transaction/create",
+      props
+    );
     return response;
   }
 }

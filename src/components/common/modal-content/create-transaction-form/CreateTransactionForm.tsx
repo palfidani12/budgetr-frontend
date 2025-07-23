@@ -1,9 +1,13 @@
 import { useState, type FormEventHandler } from "react";
 import styles from "./CreateTransactionForm.module.scss";
 import { useUser } from "../../../../hooks/user";
+import { useApi } from "../../../../hooks/api";
+import { useModal } from "../../../../hooks/modal";
 
 export const CreateTransactionForm = () => {
   const user = useUser();
+  const api = useApi();
+  const {closeModal} = useModal();
   const userMoneyPockets = user?.moneyPockets ?? [];
   const [name, setName] = useState("");
   const [vendorName, setVendorName] = useState("");
@@ -16,15 +20,23 @@ export const CreateTransactionForm = () => {
 
   const formattedNow = new Date().toISOString().slice(0, 16);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    await api.transactionApi.createTransaction({
+      transactionName: name,
+      vendorName,
+      amount: Number(amount),
+      transactionTime,
+      moneyPocketId: selectedMoneyPocketId,
+    });
     console.log({
       name,
       vendorName,
       amount: Number(amount),
       selectedMoneyPocketId,
-      transactionTime
+      transactionTime,
     });
+    closeModal();
   };
 
   return (

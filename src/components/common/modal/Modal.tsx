@@ -1,6 +1,5 @@
 import classes from "./Modal.module.scss";
 import { useModal } from "../../../hooks/modal";
-import EditMoneyPocketForm from "../modal-content/edit-money-pocket-form/EditMoneyPocketForm";
 import { CreateTransactionForm } from "../modal-content/create-transaction-form/CreateTransactionForm";
 
 export const Modal = () => {
