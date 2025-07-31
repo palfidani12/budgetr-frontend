@@ -1,7 +1,7 @@
-import { useState, useEffect, type ReactNode } from "react";
-import { AuthContext } from "../context/auth.context";
-import { tokenUtils } from "../utils/tokenUtils";
-import { useApi } from "../hooks/api";
+import { type ReactNode, useEffect, useState } from 'react';
+import { AuthContext } from '../context/auth.context';
+import { useApi } from '../hooks/api';
+import { tokenUtils } from '../utils/tokenUtils';
 
 type AuthStateType = {
   accessToken: string | null;
@@ -16,8 +16,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     userId: null,
     isLoggedIn: false,
     accessToken: null,
-    isLoading: true, // Start with loading true to check auth status
+    isLoading: true,
   });
+  const [isFetchingInitAuth, setIsFetchinInitAuth] = useState(false);
 
   const login = async (email: string, password: string) => {
     setAuthState((prev) => ({ ...prev, isLoading: true }));
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await apiClient.authApi.postLogin(email, password);
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error('Login failed');
       }
 
       const { accessToken, userId } = response.data;
@@ -54,10 +55,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await apiClient.authApi.postLogout();
 
       if (!response.ok) {
-        throw new Error("Logout failed");
+        throw new Error('Logout failed');
       }
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error('Logout error:', error);
     } finally {
       // Clear stored tokens
       tokenUtils.clearAuthData();
@@ -99,7 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     } catch (error) {
-      console.error("Token refresh failed:", error);
+      console.error('Token refresh failed:', error);
       tokenUtils.clearAuthData();
       setAuthState({
         userId: null,
@@ -115,10 +116,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const initializeAuth = async () => {
       try {
         // Try to refresh token to check if user is still authenticated
-        const response = await apiClient.post<
-          { accessToken: string; userId: string },
-          void
-        >("/auth/refresh");
+        const response = await apiClient.post<{ accessToken: string; userId: string }, void>('/auth/refresh');
 
         if (response.ok && response.data) {
           const { accessToken, userId } = response.data;
@@ -144,7 +142,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           });
         }
       } catch (error) {
-        console.error("Auth initialization failed:", error);
+        console.error('Auth initialization failed:', error);
         tokenUtils.clearAuthData();
         setAuthState({
           userId: null,
@@ -155,12 +153,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    initializeAuth();
-  }, []);
+    void initializeAuth();
+  }, [apiClient]);
 
-  return (
-    <AuthContext.Provider value={{ ...authState, login, logout, refreshToken }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ ...authState, login, logout, refreshToken }}>{children}</AuthContext.Provider>;
 };

@@ -4,7 +4,6 @@ import { CreateTransactionForm } from "../modal-content/create-transaction-form/
 
 export const Modal = () => {
   const { isOpen, modalType, closeModal } = useModal();
-  console.log("modal", isOpen, modalType);
   const modalTitle =
     modalType === "addPocket" ? "Create Account" : "Create transaction";
 

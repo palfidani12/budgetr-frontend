@@ -35,9 +35,11 @@ export class ApiClient {
     };
 
     try {
+      console.log("make request ", url);
       const response = await fetch(`${API_BASE_URL}${url}`, config);
+      console.log("make request response", url, response);
 
-      if (response.status === 401) {
+      if (response.status === 401 && url !== "/auth/refresh") {
         // Token expired, try to refresh
         const newToken = await this.refreshAccessToken();
         if (newToken) {
@@ -106,8 +108,19 @@ export class ApiClient {
   }
 
   // Public methods for different HTTP verbs
-  async get<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.makeRequest<T>(url, { ...options, method: "GET" });
+  async get<S, T>(
+    url: string,
+    data?: S,
+    options?: RequestInit
+  ): Promise<ApiResponse<T>> {
+    if (url === "/user/summary") {
+      console.log("get called with", url, data, options);
+    }
+    return this.makeRequest<T>(url, {
+      ...options,
+      method: "GET",
+      body: data ? JSON.stringify(data) : undefined,
+    });
   }
 
   async post<S, T>(
@@ -158,14 +171,26 @@ class UserApi {
   }
 
   async getUser(userId: string) {
-    const response = await this.apiClient.get<User>(`/user/${userId}`);
+    const response = await this.apiClient.get<undefined, User>(
+      `/user/${userId}`
+    );
     return response;
   }
 
   async getUserTransactions() {
-    const response = await this.apiClient.get<Transaction[]>(
+    const response = await this.apiClient.get<undefined, Transaction[]>(
       "/user/userTransactions"
     );
+    return response;
+  }
+
+  async getUserSummary(from: string, to: string) {
+    console.log("getSummary");
+    const response = await this.apiClient.get<
+      { from: string; to: string },
+      { income: number; spending: number; currency: string }[]
+    >("/user/summary", { from, to });
+    console.log("getSummary after fetch");
     return response;
   }
 }
