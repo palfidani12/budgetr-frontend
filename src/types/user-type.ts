@@ -1,4 +1,4 @@
-import type { MoneyPocket } from "./money-pocket-type";
+import type { MoneyPocket } from './money-pocket-type';
 
 export type User = {
   id: string;

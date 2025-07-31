@@ -5,11 +5,9 @@ interface LoadingSpinnerProps {
   message?: string;
 }
 
-export const LoadingSpinner = ({ size = 'medium', message = 'Loading...' }: LoadingSpinnerProps) => {
-  return (
-    <div className={classes.loadingContainer}>
-      <div className={`${classes.spinner} ${classes[size]}`}></div>
-      {message && <p className={classes.message}>{message}</p>}
-    </div>
-  );
-}; 
+export const LoadingSpinner = ({ size = 'medium', message = 'Loading...' }: LoadingSpinnerProps) => (
+  <div className={classes.loadingContainer}>
+    <div className={`${classes.spinner} ${classes[size]}`} />
+    {message && <p className={classes.message}>{message}</p>}
+  </div>
+);

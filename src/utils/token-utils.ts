@@ -11,9 +11,7 @@ export const tokenUtils = {
   },
 
   // Get token from memory
-  getToken: (): string | null => {
-    return sessionStorage.getItem(TOKEN_KEY);
-  },
+  getToken: (): string | null => sessionStorage.getItem(TOKEN_KEY),
 
   // Remove token from memory
   removeToken: () => {
@@ -26,9 +24,7 @@ export const tokenUtils = {
   },
 
   // Get user ID
-  getUserId: (): string | null => {
-    return sessionStorage.getItem(USER_ID_KEY);
-  },
+  getUserId: (): string | null => sessionStorage.getItem(USER_ID_KEY),
 
   // Remove user ID
   removeUserId: () => {
@@ -61,4 +57,4 @@ export const tokenUtils = {
       return null;
     }
   },
-}; 
+};

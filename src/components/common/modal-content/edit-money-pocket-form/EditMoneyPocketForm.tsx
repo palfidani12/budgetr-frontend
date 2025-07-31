@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styles from "./EditMoneyPocketForm.module.scss";
+import { type FC, useState } from 'react';
+import styles from './EditMoneyPocketForm.module.scss';
 
 interface EditMoneyPocketFormProps {
   initialName?: string;
@@ -8,12 +8,7 @@ interface EditMoneyPocketFormProps {
   onCancel?: () => void;
 }
 
-const EditMoneyPocketForm: React.FC<EditMoneyPocketFormProps> = ({
-  initialName = "",
-  initialBalance = 0,
-  onSubmit,
-  onCancel,
-}) => {
+const EditMoneyPocketForm: FC<EditMoneyPocketFormProps> = ({ initialName = '', initialBalance = 0, onSubmit, onCancel }) => {
   const [name, setName] = useState(initialName);
   const [balance, setBalance] = useState(initialBalance);
 
@@ -23,31 +18,43 @@ const EditMoneyPocketForm: React.FC<EditMoneyPocketFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles["form-group"]}>
-        <label htmlFor="name">Name</label>
+    <form
+      onSubmit={handleSubmit}
+      className={styles.form}
+    >
+      <div className={styles['form-group']}>
+        <label htmlFor='name'>Name</label>
         <input
-          id="name"
-          type="text"
+          id='name'
+          type='text'
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           required
         />
       </div>
-      <div className={styles["form-group"]}>
-        <label htmlFor="balance">Balance</label>
+      <div className={styles['form-group']}>
+        <label htmlFor='balance'>Balance</label>
         <input
-          id="balance"
-          type="number"
+          id='balance'
+          type='number'
           value={balance}
-          onChange={e => setBalance(Number(e.target.value))}
+          onChange={(e) => setBalance(Number(e.target.value))}
           required
         />
       </div>
       <div className={styles.actions}>
-        <button type="submit" className={styles["save-button"]}>Save</button>
+        <button
+          type='submit'
+          className={styles['save-button']}
+        >
+          Save
+        </button>
         {onCancel && (
-          <button type="button" onClick={onCancel} className={styles["cancel-button"]}>
+          <button
+            type='button'
+            onClick={onCancel}
+            className={styles['cancel-button']}
+          >
             Cancel
           </button>
         )}
@@ -56,4 +63,4 @@ const EditMoneyPocketForm: React.FC<EditMoneyPocketFormProps> = ({
   );
 };
 
-export default EditMoneyPocketForm; 
+export default EditMoneyPocketForm;

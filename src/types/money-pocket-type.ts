@@ -1,4 +1,4 @@
-import type { Transaction } from "./transaction-type";
+import type { Transaction } from './transaction-type';
 
 export type MoneyPocket = {
   id: string;

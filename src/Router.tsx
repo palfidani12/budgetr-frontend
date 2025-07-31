@@ -1,36 +1,34 @@
-import { BrowserRouter, Route, Routes } from "react-router";
-import App from "./App";
-import { Login } from "./components/login/Login";
-import { Register } from "./components/register/Register";
-import { HomePage } from "./components/home-page/HomePage";
-import { Dashboard } from "./components/dashboard/Dashboard";
-import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { Dashboard } from './components/dashboard/Dashboard';
+import { HomePage } from './components/home-page/HomePage';
+import { Login } from './components/login/Login';
+import { Register } from './components/register/Register';
+import App from './App';
 
-export const Router = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
+export const Router = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<HomePage />} />
+      <Route
+        path='/dashboard'
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
           }
-        />
-        <Route
-          path="/app"
-          element={
-            <ProtectedRoute>
-              <App />
-            </ProtectedRoute>
+      />
+      <Route
+        path='/app'
+        element={
+          <ProtectedRoute>
+            <App />
+          </ProtectedRoute>
           }
-        />{" "}
-        {/* Remove this */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+      />{' '}
+      {/* Remove this */}
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+    </Routes>
+  </BrowserRouter>
+);

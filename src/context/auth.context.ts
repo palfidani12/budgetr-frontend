@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export type AuthContextProps = {
   accessToken: string | null;
@@ -10,6 +10,4 @@ export type AuthContextProps = {
   refreshToken: () => Promise<void>;
 };
 
-export const AuthContext = createContext<AuthContextProps>(
-  null as unknown as AuthContextProps
-);
+export const AuthContext = createContext<AuthContextProps>(null as unknown as AuthContextProps);

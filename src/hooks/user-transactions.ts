@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { useApi } from "./api";
-import { useAuth } from "./auth";
+import { useQuery } from '@tanstack/react-query';
+import { useApi } from './api';
+import { useAuth } from './auth';
 
 export const useUserTransactions = () => {
   const api = useApi();
@@ -11,7 +11,7 @@ export const useUserTransactions = () => {
       const response = await api.userApi.getUserTransactions();
 
       if (!response.ok) {
-        throw new Error("Fetching user transactions failed");
+        throw new Error('Fetching user transactions failed');
       }
 
       return response.data;

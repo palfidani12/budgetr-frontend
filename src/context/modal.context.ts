@@ -1,8 +1,6 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
-export type ModalType =
-  | "addTransaction"
-  | "addPocket";
+export type ModalType = 'addTransaction' | 'addPocket';
 
 export type ModalContextProps = {
   isOpen: boolean;
@@ -11,6 +9,4 @@ export type ModalContextProps = {
   closeModal: () => void;
 };
 
-export const ModalContext = createContext<ModalContextProps>(
-  null as unknown as ModalContextProps
-);
+export const ModalContext = createContext<ModalContextProps>(null as unknown as ModalContextProps);

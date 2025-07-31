@@ -1,5 +1,5 @@
-import type { Transaction } from "../types/transaction-type";
-import type { User } from "../types/user-type";
+import type { Transaction } from '../types/transaction-type';
+import type { User } from '../types/user-type';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -21,25 +21,22 @@ export class ApiClient {
     this.transactionApi = new TransactionApi(this);
   }
 
-  private async makeRequest<T>(
-    url: string,
-    options: RequestInit = {}
-  ): Promise<ApiResponse<T>> {
+  private async makeRequest<T>(url: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
     const config: RequestInit = {
-      credentials: "include",
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...options.headers,
       },
       ...options,
     };
 
     try {
-      console.log("make request ", url);
+      console.log('make request ', url);
       const response = await fetch(`${API_BASE_URL}${url}`, config);
-      console.log("make request response", url, response);
+      console.log('make request response', url, response);
 
-      if (response.status === 401 && url !== "/auth/refresh") {
+      if (response.status === 401 && url !== '/auth/refresh') {
         // Token expired, try to refresh
         const newToken = await this.refreshAccessToken();
         if (newToken) {
@@ -85,80 +82,64 @@ export class ApiClient {
   private async performRefresh(): Promise<string | null> {
     try {
       const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
       if (!response.ok) {
         // Refresh failed, redirect to login
-        window.location.href = "/login";
+        window.location.href = '/login';
         return null;
       }
 
       const data = await response.json();
       return data.accessToken;
     } catch (error) {
-      console.error("Token refresh failed:", error);
-      window.location.href = "/login";
+      console.error('Token refresh failed:', error);
+      window.location.href = '/login';
       return null;
     }
   }
 
   // Public methods for different HTTP verbs
-  async get<S, T>(
-    url: string,
-    data?: S,
-    options?: RequestInit
-  ): Promise<ApiResponse<T>> {
-    if (url === "/user/summary") {
-      console.log("get called with", url, data, options);
+  async get<S, T>(url: string, data?: S, options?: RequestInit): Promise<ApiResponse<T>> {
+    if (url === '/user/summary') {
+      console.log('get called with', url, data, options);
     }
     return this.makeRequest<T>(url, {
       ...options,
-      method: "GET",
+      method: 'GET',
       body: data ? JSON.stringify(data) : undefined,
     });
   }
 
-  async post<S, T>(
-    url: string,
-    data?: S,
-    options?: RequestInit
-  ): Promise<ApiResponse<T>> {
+  async post<S, T>(url: string, data?: S, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(url, {
       ...options,
-      method: "POST",
+      method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
     });
   }
 
-  async put<S, T>(
-    url: string,
-    data?: S,
-    options?: RequestInit
-  ): Promise<ApiResponse<T>> {
+  async put<S, T>(url: string, data?: S, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(url, {
       ...options,
-      method: "PUT",
+      method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
     });
   }
 
   async delete<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.makeRequest<T>(url, { ...options, method: "DELETE" });
+    return this.makeRequest<T>(url, { ...options, method: 'DELETE' });
   }
 
-  async patch<S, T>(
-    url: string,
-    data?: S,
-    options?: RequestInit
-  ): Promise<ApiResponse<T>> {
+  async patch<S, T>(url: string, data?: S, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.makeRequest<T>(url, {
       ...options,
-      method: "PATCH",
+      method: 'PATCH',
       body: data ? JSON.stringify(data) : undefined,
     });
   }
@@ -171,26 +152,19 @@ class UserApi {
   }
 
   async getUser(userId: string) {
-    const response = await this.apiClient.get<undefined, User>(
-      `/user/${userId}`
-    );
+    const response = await this.apiClient.get<undefined, User>(`/user/${userId}`);
     return response;
   }
 
   async getUserTransactions() {
-    const response = await this.apiClient.get<undefined, Transaction[]>(
-      "/user/userTransactions"
-    );
+    const response = await this.apiClient.get<undefined, Transaction[]>('/user/userTransactions');
     return response;
   }
 
   async getUserSummary(from: string, to: string) {
-    console.log("getSummary");
-    const response = await this.apiClient.get<
-      { from: string; to: string },
-      { income: number; spending: number; currency: string }[]
-    >("/user/summary", { from, to });
-    console.log("getSummary after fetch");
+    console.log('getSummary');
+    const response = await this.apiClient.get<{ from: string; to: string }, { income: number; spending: number; currency: string }[]>('/user/summary', { from, to });
+    console.log('getSummary after fetch');
     return response;
   }
 }
@@ -208,7 +182,7 @@ class AuthApi {
         accessToken: string;
         userId: string;
       }
-    >("/auth/login", {
+    >('/auth/login', {
       email,
       password,
     });
@@ -217,7 +191,7 @@ class AuthApi {
   }
 
   async postLogout() {
-    const response = await this.apiClient.post("/auth/logout");
+    const response = await this.apiClient.post('/auth/logout');
     return response;
   }
 
@@ -228,7 +202,7 @@ class AuthApi {
         accessToken: string;
         userId: string;
       }
-    >("/auth/refresh");
+    >('/auth/refresh');
     return response;
   }
 }
@@ -248,10 +222,7 @@ class TransactionApi {
   }
 
   async createTransaction(props: CreateTransactionProps) {
-    const response = await this.apiClient.post<CreateTransactionProps, void>(
-      "/transaction/create",
-      props
-    );
+    const response = await this.apiClient.post<CreateTransactionProps, void>('/transaction/create', props);
     return response;
   }
 }

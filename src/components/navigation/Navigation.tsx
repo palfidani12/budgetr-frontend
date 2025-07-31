@@ -1,36 +1,34 @@
-import { Calendar, Home, PieChart, Settings } from "lucide-react";
-import { useState } from "react";
+import { useState } from 'react';
+import { Calendar, Home, PieChart, Settings } from 'lucide-react';
 
 export const Navigation = () => {
-  const [activeTab, setActiveTab] = useState<
-    "overview" | "transactions" | "analytics" | "recurring"
-  >("overview");
+  const [activeTab, setActiveTab] = useState<'overview' | 'transactions' | 'analytics' | 'recurring'>('overview');
   return (
-    <nav className="navigation">
+    <nav className='navigation'>
       <button
-        className={`nav-button ${activeTab === "overview" ? "active" : ""}`}
-        onClick={() => setActiveTab("overview")}
+        className={`nav-button ${activeTab === 'overview' ? 'active' : ''}`}
+        onClick={() => setActiveTab('overview')}
       >
         <Home size={20} />
         Overview
       </button>
       <button
-        className={`nav-button ${activeTab === "transactions" ? "active" : ""}`}
-        onClick={() => setActiveTab("transactions")}
+        className={`nav-button ${activeTab === 'transactions' ? 'active' : ''}`}
+        onClick={() => setActiveTab('transactions')}
       >
         <Calendar size={20} />
         Transactions
       </button>
       <button
-        className={`nav-button ${activeTab === "analytics" ? "active" : ""}`}
-        onClick={() => setActiveTab("analytics")}
+        className={`nav-button ${activeTab === 'analytics' ? 'active' : ''}`}
+        onClick={() => setActiveTab('analytics')}
       >
         <PieChart size={20} />
         Analytics
       </button>
       <button
-        className={`nav-button ${activeTab === "recurring" ? "active" : ""}`}
-        onClick={() => setActiveTab("recurring")}
+        className={`nav-button ${activeTab === 'recurring' ? 'active' : ''}`}
+        onClick={() => setActiveTab('recurring')}
       >
         <Settings size={20} />
         Recurring

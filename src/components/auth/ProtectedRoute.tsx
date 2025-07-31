@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import type { ReactNode } from "react";
-import { useNavigate } from "react-router";
-import { useAuth } from "../../hooks/auth";
-import { LoadingSpinner } from "../common/loading-spinner/LoadingSpinner";
+import type { ReactNode } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { useAuth } from '../../hooks/auth';
+import { LoadingSpinner } from '../common/loading-spinner/LoadingSpinner';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -15,16 +15,16 @@ export const ProtectedRoute = ({ children, fallback }: ProtectedRouteProps) => {
 
   useEffect(() => {
     if (!isLoading && !isLoggedIn && !accessToken) {
-      navigate("/login", { replace: true });
+      void navigate('/login', { replace: true });
     }
   }, [isLoggedIn, isLoading, accessToken, navigate]);
 
   if (isLoading) {
-    return fallback || <LoadingSpinner message="Checking authentication..." />;
+    return fallback || <LoadingSpinner message='Checking authentication...' />;
   }
 
   if (!isLoggedIn || !accessToken) {
-    console.log("shows nothing", isLoggedIn, accessToken); // TODO: Fix or remove this condition
+    console.log('shows nothing', isLoggedIn, accessToken); // TODO: Fix or remove this condition
     return null; // Will redirect to login
   }
 

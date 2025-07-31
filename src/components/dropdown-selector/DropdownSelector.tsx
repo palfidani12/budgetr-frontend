@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 import { Plus } from 'lucide-react';
 import styles from './DropdownSelector.module.scss';
 
@@ -9,11 +9,7 @@ interface DropdownSelectorProps {
   className?: string;
 }
 
-export const DropdownSelector: React.FC<DropdownSelectorProps> = ({
-  options,
-  onSelect,
-  className = ""
-}) => {
+export const DropdownSelector: FC<DropdownSelectorProps> = ({ options, onSelect, className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -38,15 +34,21 @@ export const DropdownSelector: React.FC<DropdownSelectorProps> = ({
   };
 
   return (
-    <div className={`${styles['dropdown-selector']} ${className}`} ref={dropdownRef}>
+    <div
+      className={`${styles['dropdown-selector']} ${className}`}
+      ref={dropdownRef}
+    >
       <button
         className={styles['dropdown-trigger']}
         onClick={() => setIsOpen(!isOpen)}
-        type="button"
+        type='button'
       >
-        <Plus size={20} className={styles['plus-icon']} />
+        <Plus
+          size={20}
+          className={styles['plus-icon']}
+        />
       </button>
-      
+
       {isOpen && (
         <div className={styles['dropdown-menu']}>
           {options.map((option, index) => (
@@ -54,7 +56,7 @@ export const DropdownSelector: React.FC<DropdownSelectorProps> = ({
               key={index}
               className={`${styles['dropdown-option']} ${selectedOption === option ? styles.selected : ''}`}
               onClick={() => handleOptionSelect(option)}
-              type="button"
+              type='button'
             >
               {option}
             </button>
@@ -63,4 +65,4 @@ export const DropdownSelector: React.FC<DropdownSelectorProps> = ({
       )}
     </div>
   );
-}; 
+};

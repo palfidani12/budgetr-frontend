@@ -10,4 +10,4 @@ export const useAuthStatus = () => {
     userId,
     isReady: !isLoading, // App is ready when auth check is complete
   };
-}; 
+};

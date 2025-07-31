@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import { type ReactNode, useEffect, useState } from 'react';
 import { AuthContext } from '../context/auth.context';
 import { useApi } from '../hooks/api';
-import { tokenUtils } from '../utils/tokenUtils';
+import { tokenUtils } from '../utils/token-utils';
 
 type AuthStateType = {
   accessToken: string | null;

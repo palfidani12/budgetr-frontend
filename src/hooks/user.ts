@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "./auth";
-import { useApi } from "./api";
+import { useQuery } from '@tanstack/react-query';
+import { useApi } from './api';
+import { useAuth } from './auth';
 
 export const useUser = () => {
   const api = useApi();
@@ -11,7 +11,7 @@ export const useUser = () => {
       const response = await api.userApi.getUser(userId!);
 
       if (!response.ok) {
-        throw new Error("Fetching user failed");
+        throw new Error('Fetching user failed');
       }
 
       return response.data;

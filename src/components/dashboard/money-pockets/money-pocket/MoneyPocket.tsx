@@ -1,6 +1,6 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { MoneyPocket as MoneyPocketType } from "../../../../types/money-pocket-type";
-import classes from "./MoneyPocket.module.scss";
+import type { Dispatch, SetStateAction } from 'react';
+import type { MoneyPocket as MoneyPocketType } from '../../../../types/money-pocket-type';
+import classes from './MoneyPocket.module.scss';
 
 // Default icon for when no iconUrl is provided
 const getDefaultIcon = (type: string) => {
@@ -28,14 +28,13 @@ const getDefaultIcon = (type: string) => {
 };
 
 // Format currency based on the currency code
-const formatCurrency = (amount: number, currency: string) => {
-  return new Intl.NumberFormat('en-US', {
+const formatCurrency = (amount: number, currency: string) =>
+  new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency || 'USD',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount);
-};
 
 // Get type display name
 const getTypeDisplayName = (type: string) => {
@@ -52,21 +51,13 @@ const getTypeDisplayName = (type: string) => {
     'cryptocurrency': 'Crypto',
     'cash': 'Cash',
   };
-  
+
   return typeMap[type.toLowerCase()] || type;
 };
 
-export const MoneyPocket = ({
-  moneyPocket,
-  setVisiblePocketNames,
-}: {
-  moneyPocket: MoneyPocketType;
-  setVisiblePocketNames: Dispatch<SetStateAction<string[]>>;
-}) => {
+export const MoneyPocket = ({ moneyPocket, setVisiblePocketNames }: { moneyPocket: MoneyPocketType; setVisiblePocketNames: Dispatch<SetStateAction<string[]>> }) => {
   const hidePocket = () => {
-    setVisiblePocketNames((prev) =>
-      prev.filter((pocket) => pocket != moneyPocket.name)
-    );
+    setVisiblePocketNames((prev) => prev.filter((pocket) => pocket != moneyPocket.name));
   };
 
   const icon = moneyPocket.iconUrl || getDefaultIcon(moneyPocket.type);
@@ -78,8 +69,8 @@ export const MoneyPocket = ({
       <div className={classes.pocketHeader}>
         <div className={classes.pocketIcon}>
           {moneyPocket.iconUrl ? (
-            <img 
-              src={moneyPocket.iconUrl} 
+            <img
+              src={moneyPocket.iconUrl}
               alt={`${moneyPocket.name} icon`}
               className={classes.iconImage}
             />
@@ -87,21 +78,21 @@ export const MoneyPocket = ({
             <span className={classes.defaultIcon}>{icon}</span>
           )}
         </div>
-        
+
         <div className={classes.pocketInfo}>
           <h3 className={classes.pocketName}>{moneyPocket.name}</h3>
           <span className={classes.pocketType}>{typeDisplayName}</span>
         </div>
-        
-        <button 
+
+        <button
           onClick={hidePocket}
           className={classes.closeButton}
-          aria-label="Close pocket"
+          aria-label='Close pocket'
         >
           ×
         </button>
       </div>
-      
+
       <div className={classes.pocketBalance}>
         <span className={classes.balanceLabel}>Balance</span>
         <span className={classes.balanceAmount}>{formattedBalance}</span>

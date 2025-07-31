@@ -1,14 +1,10 @@
-import { useState } from "react";
-import classes from "./TimeFrameSelector.module.scss";
+import { useState } from 'react';
+import classes from './TimeFrameSelector.module.scss';
 
-export type TimeFrame = "day" | "week" | "month" | "year" | "all";
+export type TimeFrame = 'day' | 'week' | 'month' | 'year' | 'all';
 
-export const TimeFrameSelector = ({
-  onSelect,
-}: {
-  onSelect: (timeFrame: TimeFrame) => void;
-}) => {
-  const [timeFrame, setTimeFrame] = useState<TimeFrame>("all");
+export const TimeFrameSelector = ({ onSelect }: { onSelect: (timeFrame: TimeFrame) => void }) => {
+  const [timeFrame, setTimeFrame] = useState<TimeFrame>('all');
 
   return (
     <div className={classes.timeFrameSelectorAlignerDiv}>
@@ -20,11 +16,11 @@ export const TimeFrameSelector = ({
           onSelect(e.target.value as TimeFrame);
         }}
       >
-        <option value="day">Day</option>
-        <option value="week">Week</option>
-        <option value="month">Month</option>
-        <option value="year">Year</option>
-        <option value="all">All Time</option>
+        <option value='day'>Day</option>
+        <option value='week'>Week</option>
+        <option value='month'>Month</option>
+        <option value='year'>Year</option>
+        <option value='all'>All Time</option>
       </select>
     </div>
   );
